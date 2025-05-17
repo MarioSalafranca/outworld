@@ -1,9 +1,8 @@
-# ——————————————
-# Stage 1: Instalar dependencias con Composer
-# ——————————————
-FROM php:8.1-cli AS build
+# ——————————————————————————————
+# 1) Imagen base para PHP 8.3 y extensiones
+# ——————————————————————————————
+FROM php:8.3-cli AS base
 
-# Instalamos git y las librerías necesarias para extensiones de PHP
 RUN apt-get update && apt-get install -y \
     git \
     zip unzip \
@@ -20,39 +19,31 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html
 
-# Copiamos sólo composer.json y composer.lock
-COPY composer.json composer.lock ./
+# ——————————————————————————————
+# 2) Instalación de dependencias con Composer
+# ——————————————————————————————
+FROM base AS build
 
-# Traemos Composer y hacemos install
+# Trae Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copia composer.json/lock e instala
+COPY composer.json composer.lock ./
+ENV COMPOSER_MEMORY_LIMIT=-1
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# ——————————————
-# Stage 2: Imagen de producción
-# ——————————————
-FROM php:8.1-cli
-
-# Instalamos únicamente las extensiones en runtime
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    unzip \
-    libonig-dev \
-    libxml2-dev \
-  && docker-php-ext-install \
-    pdo_mysql \
-    mbstring \
-    zip \
-    bcmath \
-    xml \
-  && rm -rf /var/lib/apt/lists/*
+# ——————————————————————————————
+# 3) Imagen final
+# ——————————————————————————————
+FROM base
 
 WORKDIR /var/www/html
 
-# Copiamos el código y el vendor ya generado
+# Copia código + vendor ya instalado
 COPY --from=build /var/www/html /var/www/html
 
-# Abrimos el puerto 8000
+# Expone el puerto de Laravel
 EXPOSE 8000
 
-# Arrancamos el servidor de Laravel
+# Arranca el servidor de desarrollo de Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
