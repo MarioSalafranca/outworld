@@ -1,6 +1,5 @@
 version: '3.8'
 services:
-  # Tu aplicación Laravel
   app:
     build:
       context: .
