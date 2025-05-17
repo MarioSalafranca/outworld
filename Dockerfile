@@ -1,21 +1,24 @@
-# Usa PHP 8.1 en modo CLI (puedes cambiar a php:8.1-fpm si prefieres)
+# Usa PHP 8.1 en modo CLI
 FROM php:8.1-cli
 
-# Instala extensiones necesarias para Laravel + MySQL + ZIP
+# Instala git, extensiones necesarias para Laravel + MySQL + ZIP
 RUN apt-get update && apt-get install -y \
-    libzip-dev zip unzip \
+    git \
+    libzip-dev \
+    zip \
+    unzip \
   && docker-php-ext-install pdo_mysql zip \
   && rm -rf /var/lib/apt/lists/*
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Crea el directorio de la app
+# Define el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia sólo composer.json y composer.lock e instala dependencias
+# Copia solo composer.json y composer.lock e instala dependencias
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 # Copia el resto de tu código
 COPY . .
