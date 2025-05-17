@@ -1,0 +1,28 @@
+#version de YAML
+version: '3.3'
+services:
+    #Base de datos
+    mysql-db:
+        image: mysql:8.0
+        #Variables de entorno del contenedor, usadas para configuración según imagen
+        environment:
+            MYSQL_ROOT_PASSWORD: 'admin'
+            MYSQL_USER: 'admin'
+            MYSQL_PASSWORD: 'admin'
+            MYSQL_DATABASE: 'daw'
+        volumes:
+            - mysqldata:/var/lib/mysql
+        ports:
+            - 3307:3306
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+          - mysql-db
+        ports:
+          - "8081:80"
+        environment:
+          PMA_HOST: mysql-db
+          MYSQL_ROOT_PASSWORD: admin
+volumes:
+    mysqldata: {}
+            
