@@ -1,7 +1,7 @@
 # Usa PHP 8.1 en modo CLI
 FROM php:8.1-cli
 
-# Instala herramientas del sistema y extensiones PHP requeridas por Laravel
+# Instala git, zip y las librerías para las extensiones PHP
 RUN apt-get update && apt-get install -y \
     git \
     zip unzip \
@@ -10,11 +10,10 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
   && docker-php-ext-install \
     pdo_mysql \
-    zip \
     mbstring \
+    zip \
     bcmath \
     xml \
-    tokenizer \
   && rm -rf /var/lib/apt/lists/*
 
 # Instala Composer
@@ -27,7 +26,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# Copia el resto del código
+# Copia el resto de tu código
 COPY . .
 
 # Expone el puerto 8000
