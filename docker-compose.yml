@@ -4,10 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /var/www/html
-    volumes:
-      - ./:/var/www/html
-      - ./vendor:/var/www/html/vendor
+    ports:
+      - "8000:8000"
     environment:
       APP_ENV: production
       APP_DEBUG: 'false'
@@ -17,8 +15,6 @@ services:
       DB_DATABASE: daw
       DB_USERNAME: admin
       DB_PASSWORD: admin
-    ports:
-      - "8000:8000"
     command: php artisan serve --host=0.0.0.0 --port=8000
     depends_on:
       - mysql-db
