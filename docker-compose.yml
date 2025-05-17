@@ -1,28 +1,50 @@
-#version de YAML
-version: '3.3'
+version: '3.8'
 services:
-    #Base de datos
-    mysql-db:
-        image: mysql:8.0
-        #Variables de entorno del contenedor, usadas para configuración según imagen
-        environment:
-            MYSQL_ROOT_PASSWORD: 'admin'
-            MYSQL_USER: 'admin'
-            MYSQL_PASSWORD: 'admin'
-            MYSQL_DATABASE: 'daw'
-        volumes:
-            - mysqldata:/var/lib/mysql
-        ports:
-            - 3307:3306
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        links:
-          - mysql-db
-        ports:
-          - "8081:80"
-        environment:
-          PMA_HOST: mysql-db
-          MYSQL_ROOT_PASSWORD: admin
+  # Tu aplicación Laravel
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./vendor:/var/www/html/vendor      # opcional, si quieres cachear dependencias
+    environment:
+      APP_ENV: production
+      APP_DEBUG: 'false'
+      DB_CONNECTION: mysql
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_DATABASE: daw
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+    ports:
+      - "8000:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 'admin'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_DATABASE: 'daw'
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql-db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql-db
+      MYSQL_ROOT_PASSWORD: admin
+
 volumes:
-    mysqldata: {}
-            
+  mysqldata:
