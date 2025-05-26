@@ -1,0 +1,571 @@
+/* PANEL */
+
+:root {
+    --brand: #0651B4;
+    --bg-card: #fff;
+    --text-primary: #333;
+    --text-secondary: #555;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f2f5f8;
+    color: var(--text-primary);
+}
+
+.container {
+    width: 90%;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--brand);
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    border: none;
+    background: var(--bg-card);
+    border-bottom: 2px solid transparent;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.tabs button.active {
+    border-color: var(--brand);
+    font-weight: bold;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.section-title {
+    margin: 20px 0 10px;
+    font-size: 20px;
+    color: var(--brand);
+    border-bottom: 2px solid var(--brand);
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background: var(--bg-card);
+    flex: 1 1 calc(33% - 20px);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow);
+    position: relative;
+}
+
+.card h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.w-5.h-5 {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .card {
+        flex: 1 1 100%;
+    }
+}
+
+/* Tabla de usuarios */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f0f0f0;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-admin {
+    background: var(--brand);
+    color: #fff;
+}
+
+.btn-delete {
+    background: #e53e3e;
+    color: #fff;
+}
+
+.btn-create {
+    background: var(--brand);
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+}
+
+.acciones-pag {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.acciones-pag ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 15px;
+}
+
+/* CREAR COMPRA */
+
+/* crear-compra.css */
+
+.crear-compra-view {
+    /* Variables locales */
+    --brand: #0651B4;
+    --bg-card: #fff;
+    --text: #333;
+    --shadow: rgba(0,0,0,0.1);
+}
+
+/* Reset y base */
+.crear-compra-view * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.crear-compra-view body,
+.crear-compra-view {
+    font-family: Arial, sans-serif;
+    background: #f2f5f8;
+    color: var(--text);
+}
+
+/* Contenedor */
+.crear-compra-view .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+/* Títulos */
+.crear-compra-view h1 {
+    text-align: center;
+    color: var(--brand);
+    margin-bottom: 20px;
+}
+
+/* Grupos de formulario */
+.crear-compra-view .form-group {
+    margin-bottom: 15px;
+}
+.crear-compra-view .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+/* Inputs y selects */
+.crear-compra-view .form-control,
+.crear-compra-view select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Secciones */
+.crear-compra-view .form-section {
+    margin-bottom: 30px;
+}
+.crear-compra-view .form-section h2 {
+    margin-bottom: 15px;
+    color: var(--brand);
+    border-bottom: 2px solid var(--brand);
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* Lista de productos */
+.crear-compra-view .productos-list .producto-entry {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+.crear-compra-view .productos-list .producto-entry > * {
+    flex: 1;
+}
+.crear-compra-view .productos-list .producto-entry .btn-remove {
+    flex: 0 0 auto;
+    background: #e53e3e;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Botón “añadir producto” */
+.crear-compra-view #add-product {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Total calculado */
+.crear-compra-view .total-group {
+    text-align: right;
+    margin-top: 20px;
+}
+.crear-compra-view .total-group label {
+    font-weight: bold;
+}
+.crear-compra-view .total-group input {
+    width: 150px;
+    display: inline-block;
+    text-align: right;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #f5f5f5;
+}
+
+/* Acciones finales */
+.crear-compra-view .form-actions {
+    text-align: right;
+    margin-top: 30px;
+}
+.crear-compra-view .btn-submit {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.crear-compra-view .btn-cancel {
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--brand);
+    font-size: 16px;
+}
+
+/* crear-drink.css */
+
+.crear-drink-view {
+    /* Variables locales */
+    --brand: #0651B4;
+    --bg: #fff;
+    --text: #333;
+    --shadow: rgba(0,0,0,0.1);
+}
+
+/* Reset y base */
+.crear-drink-view * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.crear-drink-view body,
+.crear-drink-view {
+    font-family: Arial, sans-serif;
+    background: #f2f5f8;
+    color: var(--text);
+}
+
+/* Contenedor */
+.crear-drink-view .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--bg);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+/* Título principal */
+.crear-drink-view h1 {
+    text-align: center;
+    color: var(--brand);
+    margin-bottom: 20px;
+}
+
+/* Mensaje de errores */
+.crear-drink-view .error-box {
+    background: #fee;
+    border: 1px solid #f99;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.crear-drink-view .error-box ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #900;
+}
+
+/* Form-groups */
+.crear-drink-view .form-group {
+    margin-bottom: 15px;
+}
+.crear-drink-view .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+/* Inputs, selects y textarea */
+.crear-drink-view .form-control,
+.crear-drink-view select,
+.crear-drink-view textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+}
+
+/* Secciones */
+.crear-drink-view .form-section {
+    margin-bottom: 30px;
+}
+.crear-drink-view .form-section h2 {
+    margin-bottom: 15px;
+    color: var(--brand);
+    border-bottom: 2px solid var(--brand);
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* Listas dinámicas */
+.crear-drink-view .ingredientes-list .ingrediente-entry,
+.crear-drink-view .ingredientes-list .ingrediente-entry {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+.crear-drink-view .ingredientes-list .ingrediente-entry > *,
+.crear-drink-view .ingredientes-list .ingrediente-entry > * {
+    flex: 1;
+}
+.crear-drink-view .ingredientes-list .ingrediente-entry .btn-remove {
+    flex: 0 0 auto;
+    background: #e53e3e;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Botones de añadir */
+.crear-drink-view #add-ingrediente,
+.crear-drink-view #add-instrumento {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Acciones finales */
+.crear-drink-view .form-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+.crear-drink-view .btn-submit {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.crear-drink-view .btn-cancel {
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--brand);
+    font-size: 16px;
+}
+
+/* crear-producto.css */
+
+/* Scope único */
+.crear-producto-view {
+    /* Variables locales */
+    --brand: #0651B4;
+    --bg-card: #fff;
+    --text: #333;
+    --shadow: rgba(0,0,0,0.1);
+}
+
+/* Reset y base */
+.crear-producto-view * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.crear-producto-view,
+.crear-producto-view body {
+    font-family: Arial, sans-serif;
+    background: #f2f5f8;
+    color: var(--text);
+}
+
+/* Contenedor */
+.crear-producto-view .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+/* Título */
+.crear-producto-view h1 {
+    text-align: center;
+    color: var(--brand);
+    margin-bottom: 20px;
+}
+
+/* Grupos de formulario */
+.crear-producto-view .form-group {
+    margin-bottom: 15px;
+}
+.crear-producto-view .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+/* Inputs y selects */
+.crear-producto-view .form-control,
+.crear-producto-view select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+}
+
+/* Secciones */
+.crear-producto-view .form-section {
+    margin-bottom: 30px;
+}
+.crear-producto-view .form-section h2 {
+    margin-bottom: 15px;
+    color: var(--brand);
+    border-bottom: 2px solid var(--brand);
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* Checkbox categorías */
+.crear-producto-view .categorias-checkboxes label {
+    cursor: pointer;
+    user-select: none;
+}
+.crear-producto-view .categorias-checkboxes input {
+    margin-right: 8px;
+}
+
+/* Botones */
+.crear-producto-view .btn-submit {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.crear-producto-view .btn-cancel {
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--brand);
+    font-size: 16px;
+}
+
+.panel .btn-cancel {
+    position: relative;
+    top: 15px;
+}
+
+/* Atributos extra */
+.crear-producto-view .form-group textarea {
+    resize: vertical;
+}
+
+

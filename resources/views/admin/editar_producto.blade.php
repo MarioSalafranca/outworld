@@ -4,66 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Editar Producto</title>
-    <style>
-        :root {
-            --brand: #0651B4;
-            --bg-card: #fff;
-            --text: #333;
-            --shadow: rgba(0,0,0,0.1);
-        }
-        * { box‐sizing: border-box; margin:0; padding:0; }
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f5f8;
-            color: var(--text);
-        }
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: var(--bg-card);
-            border-radius: 6px;
-            box-shadow: 0 2px 8px var(--shadow);
-        }
-        h1 { text-align: center; color: var(--brand); margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label {
-            display:block; margin-bottom:6px; font-weight:bold;
-        }
-        .form-control, select, textarea {
-            width:100%; padding:8px 10px;
-            border:1px solid #ccc; border-radius:4px;
-            font-size:14px; background:#fff;
-        }
-        .form-section { margin-bottom:30px; }
-        .form-section h2 {
-            margin-bottom:15px;
-            color:var(--brand);
-            border-bottom:2px solid var(--brand);
-            display:inline-block; padding-bottom:4px;
-        }
-        .categorias-checkboxes label {
-            display:block; margin-bottom:6px; cursor:pointer;
-        }
-        .categorias-checkboxes input { margin-right:8px; }
-        .form-actions {
-            text-align:right; margin-top:30px;
-        }
-        .btn-submit {
-            background:var(--brand); color:#fff; border:none;
-            padding:10px 20px; border-radius:4px; cursor:pointer;
-            font-size:16px;
-        }
-        .btn-cancel {
-            margin-right:10px; text-decoration:none;
-            color:var(--brand); font-size:16px;
-        }
-        .note {
-            font-size:13px; color:#555; margin-top:-10px; margin-bottom:15px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
-<body>
+<body class="crear-producto-view">
 <div class="container">
     <h1>Editar Producto</h1>
     <form method="POST"

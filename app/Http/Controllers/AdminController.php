@@ -20,6 +20,11 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     public function panel() {
+
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $desde24    = Carbon::now()->subDay();
         $usuarios24 = Usuario::where('created_at', '>=', $desde24)->count();
         $pedidos24  = Compra::where('created_at', '>=', $desde24)->count();
@@ -42,6 +47,10 @@ class AdminController extends Controller
 
     public function makeAdmin($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $u = Usuario::findOrFail($id);
         $u->rol = 'admin';
         $u->save();
@@ -50,6 +59,10 @@ class AdminController extends Controller
 
     public function deleteUser($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $u = Usuario::findOrFail($id);
         $u->delete();
         return back();
@@ -57,6 +70,10 @@ class AdminController extends Controller
 
     public function downloadInvoice($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $compra = Compra::with('productos')->findOrFail($id);
 
         $usuarioSesion = session('usuario');
@@ -83,6 +100,10 @@ class AdminController extends Controller
 
     public function deleteCompra($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         DB::transaction(function() use ($id) {
             $compra = Compra::with('productos')->findOrFail($id);
 
@@ -100,6 +121,10 @@ class AdminController extends Controller
 
     public function createCompra()
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $usuarios  = Usuario::orderBy('nombre')->get();
         $productos = Producto::orderBy('nombre')->get();
 
@@ -108,6 +133,10 @@ class AdminController extends Controller
 
     public function registrarCompraAdmin(Request $request)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $data = $request->validate([
             'usuario_user'               => 'required|exists:usuarios,usuario_user',
             'fecha'                      => 'required|date',
@@ -164,20 +193,45 @@ class AdminController extends Controller
 
     public function deleteProducto($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $p = Producto::findOrFail($id);
+
+        DB::table('atributos_productos')
+            ->where('producto_id', $p->id)
+            ->delete();
+
         $p->delete();
         return back();
     }
 
     public function createProducto()
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $categorias = Categoria::orderBy('nombre')->get();
-        return view('admin.crear_producto', compact('categorias'));
+
+        $tamanios = ['250 ml', '500 ml', '750 ml', '1 L'];
+        $metodos  = ['Alambique tradicional', 'Continua', 'Olla de cobre'];
+
+        return view('admin.crear_producto', compact(
+            'categorias',
+            'tamanios',
+            'metodos',
+        ));
     }
+
 
     public function registrarProductoAdmin(Request $request)
     {
-        // 1) Validar inputs
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $data = $request->validate([
             'nombre'        => 'required|string|max:255',
             'descripcion'   => 'required|string|max:255',
@@ -188,18 +242,22 @@ class AdminController extends Controller
             'categorias.*'  => 'required|exists:categorias,id',
             'imagenes'      => 'required|array|min:1|max:3',
             'imagenes.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'sabor'              => 'required|string|max:255',
+            'tamanio'            => 'required|string|max:50',
+            'porcentaje_alcohol' => 'required|numeric|min:0|max:100',
+            'metodo_destilacion' => 'required|string|max:255',
+            'color'              => 'required|string|max:50',
         ]);
 
-        // 2) Determinar carpeta: slug del nombre
         $folder = Str::slug($data['nombre']) ?: 'anadidos';
         $basePath = "public/image/tienda/productos/{$folder}";
-        // Crear carpeta si no existe
+
         if (! Storage::exists($basePath)) {
             Storage::makeDirectory($basePath);
         }
 
         DB::transaction(function() use ($data, $basePath, $folder) {
-            // 3) Guardar primera imagen en campo 'imagen' de producto
+
             $imagenPrincipal = null;
             if (! empty($data['imagenes'][0])) {
                 $file     = $data['imagenes'][0];
@@ -208,7 +266,6 @@ class AdminController extends Controller
                 $imagenPrincipal = "image/tienda/productos/{$folder}/{$filename}";
             }
 
-            // 4) Crear el registro de Producto
             $producto = Producto::create([
                 'nombre'      => $data['nombre'],
                 'descripcion' => $data['descripcion'],
@@ -218,7 +275,6 @@ class AdminController extends Controller
                 'imagen'      => $imagenPrincipal,
             ]);
 
-            // 5) Guardar las demás imágenes en imagenes_productos
             foreach ($data['imagenes'] as $i => $file) {
                 if ($i === 0 || $file === null) {
                     continue;
@@ -231,8 +287,16 @@ class AdminController extends Controller
                 ]);
             }
 
-            // 6) Asociar categorías (tabla pivote categoria_producto)
             $producto->categorias()->attach($data['categorias']);
+
+            DB::table('atributos_productos')->insert([
+                'producto_id'        => $producto->id,
+                'sabor'              => $data['sabor'],
+                'tamanio'            => $data['tamanio'],
+                'porcentaje_alcohol' => $data['porcentaje_alcohol'],
+                'metodo_destilacion' => $data['metodo_destilacion'],
+                'color'              => $data['color'],
+            ]);
         });
 
         return redirect()
@@ -241,6 +305,10 @@ class AdminController extends Controller
 
     public function editarProducto($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $producto = Producto::with('categorias')->findOrFail($id);
 
         $categorias = Categoria::orderBy('nombre')->get();
@@ -250,7 +318,10 @@ class AdminController extends Controller
 
     public function updateProducto(Request $request, $id)
     {
-        // 1) Validar inputs
+        if (! session()->has('usuario') && ! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $data = $request->validate([
             'nombre'        => 'required|string|max:255',
             'descripcion'   => 'required|string|max:255',
@@ -264,10 +335,8 @@ class AdminController extends Controller
             'imagenes.2'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // 2) Cargar el producto
         $producto = Producto::findOrFail($id);
 
-        // 3) Determinar carpeta (usa slug del nombre nuevo o del existente)
         $folder = Str::slug($data['nombre']) ?: Str::slug($producto->nombre) ?: 'anadidos';
         $basePath = "public/image/tienda/productos/{$folder}";
         if (! Storage::exists($basePath)) {
@@ -275,7 +344,6 @@ class AdminController extends Controller
         }
 
         DB::transaction(function() use ($data, $producto, $folder, $basePath) {
-            // 4) Imagen principal (si se sube una nueva)
             if (isset($data['imagenes'][0])) {
                 $file     = $data['imagenes'][0];
                 $filename = Str::random(8) . '_' . $file->getClientOriginalName();
@@ -283,7 +351,6 @@ class AdminController extends Controller
                 $producto->imagen = "image/tienda/productos/{$folder}/{$filename}";
             }
 
-            // 5) Actualizar campos básicos
             $producto->nombre      = $data['nombre'];
             $producto->descripcion = $data['descripcion'];
             $producto->texto       = $data['texto'];
@@ -291,7 +358,6 @@ class AdminController extends Controller
             $producto->stock       = $data['stock'];
             $producto->save();
 
-            // 6) Imágenes secundarias (índices 1 y 2)
             foreach ([1,2] as $i) {
                 if (isset($data['imagenes'][$i])) {
                     $file     = $data['imagenes'][$i];
@@ -304,7 +370,6 @@ class AdminController extends Controller
                 }
             }
 
-            // 7) Sincronizar categorías
             $producto->categorias()->sync($data['categorias']);
         });
 
@@ -314,30 +379,29 @@ class AdminController extends Controller
     }
 
     public function createDrink() {
-        // Trae las categorías de tipo de cóctel
+
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $tipos = CategoriaDrink::where('tipo', 'tipo_coctel')
             ->orderBy('nombre')
             ->get();
 
-        // Trae las categorías de base de sabor
         $bases = CategoriaDrink::where('tipo', 'base_sabor')
             ->orderBy('nombre')
             ->get();
 
-        // Trae las categorías de tiempo de preparación
         $tiempos = CategoriaDrink::where('tipo', 'tiempo_preparacion')
             ->orderBy('nombre')
             ->get();
 
-        // Trae todos los ingredientes existentes
         $ingredientes = Ingrediente::orderBy('nombre')->get();
 
         $instrumentos = Instrumento::orderBy('nombre')->get();
 
-        // Trae todos los productos para vincularlos al drink
         $productos = Producto::orderBy('nombre')->get();
 
-        // Devuelve la vista con todos los datos necesarios
         return view('admin.crear_drink', compact(
             'tipos',
             'bases',
@@ -350,11 +414,14 @@ class AdminController extends Controller
 
     public function registrarDrink(Request $request)
     {
-        // 1) Validación
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $data = $request->validate([
             'nombre'                   => 'required|string|max:255',
             'imagen'                   => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'descripcion'              => 'required|string|max:255',
+            'descripcion'              => 'required|string',
             'texto'                    => 'required|string',
             'pasos'                    => 'required|string',
             'producto_id'              => 'required|exists:productos,id',
@@ -370,22 +437,19 @@ class AdminController extends Controller
             'instrumentos.*.nombre'    => 'required|string|max:255',
         ]);
 
-        // 2) Carpeta basada en slug del nombre
         $folder   = Str::slug($data['nombre']) ?: 'anadidos';
         $basePath = "public/image/absolut-drinks/{$folder}";
         if (! Storage::disk('public')->exists($basePath)) {
             Storage::disk('public')->makeDirectory($basePath);
         }
 
-        // 3) Transacción
         DB::transaction(function() use ($request, $data, $folder) {
-            // 3a) Imagen principal
+
             $file       = $request->file('imagen');
             $filename   = Str::random(8) . '_' . $file->getClientOriginalName();
             $file->storeAs("image/absolut-drinks/{$folder}", $filename, 'public');
             $imagenPath = "image/absolut-drinks/{$folder}/{$filename}";
 
-            // 3b) Crear el Drink
             $drink = Drink::create([
                 'nombre'                  => $data['nombre'],
                 'imagen'                  => $imagenPath,
@@ -398,7 +462,6 @@ class AdminController extends Controller
                 'tiempo_preparacion_id'   => $data['tiempo_preparacion_id'],
             ]);
 
-            // 3c) Imágenes adicionales
             foreach ($request->file('imagenes') as $file) {
                 if (! $file) continue;
                 $fname = Str::random(8) . '_' . $file->getClientOriginalName();
@@ -409,7 +472,6 @@ class AdminController extends Controller
                 ]);
             }
 
-            // 3d) Ingredientes (crear si no existen)
             foreach ($data['ingredientes'] as $item) {
                 $ing = Ingrediente::firstOrCreate(
                     ['nombre' => $item['nombre']]
@@ -420,13 +482,10 @@ class AdminController extends Controller
                 );
             }
 
-            // 4) Instrumentos
             foreach ($data['instrumentos'] as $itm) {
-                // crea si no existe
                 $inst = Instrumento::firstOrCreate([
                     'nombre' => $itm['nombre']
                 ]);
-                // asocia al drink
                 $drink->instrumentos()->attach($inst->id);
             }
         });
@@ -437,6 +496,10 @@ class AdminController extends Controller
 
     public function deleteDrink($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         DB::transaction(function() use ($id) {
             $drink = Drink::with([
                 'instrumentos',
@@ -462,6 +525,10 @@ class AdminController extends Controller
 
     public function editDrink($id)
     {
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $drink = Drink::with(['ingredientes','instrumentos','imagenes'])
             ->findOrFail($id);
 
@@ -480,7 +547,10 @@ class AdminController extends Controller
 
     public function updateDrink(Request $request, $id)
     {
-        // 1) Validación
+        if (! session()->has('admin')) {
+            return redirect()->route('home');
+        }
+
         $data = $request->validate([
             'nombre'                   => 'required|string|max:255',
             'imagen'                   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
@@ -500,7 +570,6 @@ class AdminController extends Controller
             'instrumentos.*.nombre'    => 'required|string|max:255',
         ]);
 
-        // 2) Carpeta según slug del nombre (o del existente si slug vacío)
         $drink    = Drink::findOrFail($id);
         $slug     = Str::slug($data['nombre']) ?: Str::slug($drink->nombre) ?: 'anadidos';
         $basePath = "public/image/absolut-drinks/{$slug}";
@@ -509,7 +578,7 @@ class AdminController extends Controller
         }
 
         DB::transaction(function() use ($data, $request, $drink, $slug) {
-            // 3) Imagen principal (si se cargó nueva)
+
             if ($request->hasFile('imagen')) {
                 $file     = $request->file('imagen');
                 $fname    = Str::random(8).'_'.$file->getClientOriginalName();
@@ -517,7 +586,6 @@ class AdminController extends Controller
                 $drink->imagen = "image/absolut-drinks/{$slug}/{$fname}";
             }
 
-            // 4) Actualizar campos básicos
             $drink->update([
                 'nombre'                => $data['nombre'],
                 'descripcion'           => $data['descripcion'],
@@ -529,7 +597,6 @@ class AdminController extends Controller
                 'tiempo_preparacion_id' => $data['tiempo_preparacion_id'],
             ]);
 
-            // 5) Imágenes adicionales (si enviadas)
             if (! empty($data['imagenes'])) {
                 foreach ($request->file('imagenes') as $file) {
                     if (! $file) continue;
@@ -542,7 +609,6 @@ class AdminController extends Controller
                 }
             }
 
-            // 6) Ingredientes: crear si falta y sync con cantidad
             $ingredSync = [];
             foreach ($data['ingredientes'] as $ing) {
                 $model = Ingrediente::firstOrCreate(['nombre' => $ing['nombre']]);
@@ -550,7 +616,6 @@ class AdminController extends Controller
             }
             $drink->ingredientes()->sync($ingredSync);
 
-            // 7) Instrumentos: crear si falta y sync
             $instIds = [];
             foreach ($data['instrumentos'] as $itm) {
                 $model = Instrumento::firstOrCreate(['nombre' => $itm['nombre']]);

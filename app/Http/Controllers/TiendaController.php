@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Log;
 class TiendaController extends Controller
 {
     public function tienda(Request $request) {
+
+        if (! request()->hasCookie('age_verified')) {
+            return view('ageGate');
+        }
+
         $tamanioPagina = 8;
 
         $categoria = $request->input('categoria');
@@ -38,13 +43,42 @@ class TiendaController extends Controller
         return view('tienda', compact('productos'));
     }
 
+    public function search(Request $request)
+    {
+        $term = $request->input('q');
+
+        if (empty($term)) {
+            $products = Producto::all();
+        } else {
+            $products = Producto::where('nombre', 'LIKE', "%{$term}%")
+                ->orderBy('nombre')
+                ->paginate(8)
+                ->withQueryString();
+        }
+
+        return view('tienda', [
+            'productos' => $products,
+            'search'   => $term,
+        ]);
+    }
+
     public function producto($id) {
+
+        if (! request()->hasCookie('age_verified')) {
+            return view('ageGate');
+        }
+
 
         $producto = Producto::with(['atributos', 'imagenes', 'ingredientes'])->findOrFail($id);
         return view('producto', compact('producto'));
     }
 
     public function carrito() {
+
+        if (! session()->has('usuario')) {
+            return redirect()->route('tienda');
+        }
+
         return view('carrito');
     }
 

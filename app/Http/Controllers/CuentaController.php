@@ -12,8 +12,11 @@ use Illuminate\Validation\Rule;
 
 class CuentaController extends Controller
 {
-    public function cuenta() {
-        return view('/cuenta');
+    public function cuenta(Request $request) {
+        if ($request->has('redirect')) {
+            session(['url.intended' => $request->input('redirect')]);
+        }
+        return view('cuenta');
     }
 
     public function miCuenta() {
@@ -110,6 +113,10 @@ class CuentaController extends Controller
 
     public function descargarFactura($id)
     {
+        if (! session()->has('usuario')) {
+            return redirect()->route('home');
+        }
+
         $compra = Compra::with('productos')->findOrFail($id);
 
         if ($compra->usuario_user !== session('usuario')) {
@@ -133,9 +140,13 @@ class CuentaController extends Controller
 
         return $pdf->stream("factura_{$compra->id}.pdf");
     }
-/*
+
     public function eliminarCuenta()
     {
+        if (! session()->has('usuario')) {
+            return redirect()->route('home');
+        }
+
         $username = session('usuario');
         $user = Usuario::where('usuario_user', $username)->firstOrFail();
 
@@ -144,5 +155,5 @@ class CuentaController extends Controller
         session()->forget('usuario');
 
         return redirect()->route('home');
-    }*/
+    }
 }

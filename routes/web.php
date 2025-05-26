@@ -37,12 +37,14 @@ Route::get('/eliminar', [CuentaController::class, 'eliminarCuenta'])->name('elim
 
 // Rutas Tienda
 Route::get('/tienda', [TiendaController::class, 'tienda'])->name('tienda');
+Route::get('/products/search', [TiendaController::class, 'search'])->name('buscadorTienda');
 Route::get('/producto/{id}', [TiendaController::class, 'producto'])->name('producto');
 Route::get('/carrito', [TiendaController::class, 'carrito'])->name('carrito');
 Route::post('/pedido', [TiendaController::class, 'procesarPedido'])->name('procesarPedido');
 
 // Rutas Absolut Drinks
 Route::get('/absolut-drinks', [AbsolutDrinksController::class, 'absolutDrinks'])->name('absolutDrinks');
+Route::get('/drinks/search', [AbsolutDrinksController::class, 'search'])->name('buscadorDrinks');
 Route::get('/drink/{id}', [AbsolutDrinksController::class, 'drink'])->name('drink');
 Route::post('/drink/{id}/comentar', [AbsolutDrinksController::class, 'comentar'])->name('comentar');
 Route::post('/reseñas/{id}/responder', [AbsolutDrinksController::class, 'responder'])->name('responder');

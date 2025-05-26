@@ -11,6 +11,11 @@ class AbsolutDrinksController extends Controller
     // General
     public function absolutDrinks(Request $request)
     {
+
+        if (! request()->hasCookie('age_verified')) {
+            return view('ageGate');
+        }
+
         $query = Drink::with(['ingredientes', 'instrumentos', 'reseñas']);
 
         $tipoCoctel = $request->input('tipo_coctel');
@@ -35,14 +40,38 @@ class AbsolutDrinksController extends Controller
             });
         }
 
-        $drinks = $query->paginate(10);
+        $drinks = $query->paginate(8);
 
         return view('absolutDrinks', compact('drinks'));
     }
 
+    public function search(Request $request)
+    {
+        $term = $request->input('q');
+
+        $query = Drink::query();
+
+        if (!empty($term)) {
+            $query->where('nombre', 'LIKE', "%{$term}%");
+        }
+
+        $drinks = $query->orderBy('nombre')
+            ->paginate(8)
+            ->withQueryString();
+
+        return view('absolutDrinks', [
+            'drinks' => $drinks,
+            'search' => $term,
+        ]);
+    }
 
     // Especifico
     public function drink($id) {
+
+        if (! request()->hasCookie('age_verified')) {
+            return view('ageGate');
+        }
+
         $drink = Drink::with(['ingredientes', 'instrumentos', 'reseñas', 'imagenes'])->findorfail($id);
         return view('drink', compact('drink'));
     }

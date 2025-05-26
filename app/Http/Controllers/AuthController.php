@@ -61,12 +61,11 @@ class AuthController extends Controller
             }
 
             if (session()->has('url.intended')) {
-                $intendedUrl = session('url.intended');
+                $dest = session('url.intended');
                 session()->forget('url.intended');
-                return redirect($intendedUrl);
-            } else {
-                return redirect()->route('miCuenta');
+                return redirect($dest);
             }
+            return redirect()->route('miCuenta');
         }
 
         return back()->withErrors([

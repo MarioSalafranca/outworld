@@ -5,26 +5,51 @@
         </div>
 
         <div class="search-bar-inline">
-            <div class="search-input">
-                <input type="text" placeholder="¿Ya has elegido con cual vas a brindar?" id="productSearch" />
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
-            </div>
+            <form action="{{ route('buscadorTienda') }}" method="GET" class="search-bar-inline">
+                <div class="search-input">
+                    <input
+                        type="text"
+                        name="q"
+                        id="productSearch"
+                        placeholder="¿Ya has elegido con cuál vas a brindar?"
+                        value="{{ request('q') }}"
+                    />
+                    <button type="submit" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <nav class="nav">
             <ul class="nav-links">
+                @if(session()->has('admin'))
+                    <li class="account-menu">
+                        <a href="{{ route('panel') }}" class="account-trigger">
+                            <span>Administración</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="account-menu">
-                    @if(session()->has('admin'))
-                    <a href="{{ route('panel') }}" class="account-trigger"><span>Administracion</span></a>
+                    @if(session()->has('usuario'))
+                        <a href="{{ route('miCuenta') }}" class="account-trigger">
+                            <span>{{ session('usuario') }}</span>
+                            <img src="{{ asset('image/iconos/cuenta.png') }}">
+                        </a>
+                    @else
+                        <a href="{{ route('cuenta', ['redirect' => route('tienda')]) }}" class="account-trigger">
+                            <span>Mi cuenta</span>
+                            <img src="{{ asset('image/iconos/cuenta.png') }}">
+                        </a>
                     @endif
                 </li>
-                <li class="account-menu">
-                    <a href="{{ route('miCuenta') }}" class="account-trigger">
-                            <span>@if(session()->has('usuario')){{ session('usuario') }}@else Mi cuenta @endif</span>
-                        <img src="{{ asset('image/iconos/cuenta.png') }}"></a>
-                </li>
+
                 <li class="cart-link" id="cartButton">
-                    <a href="{{ route('carrito') }}"><img src= "{{ asset('image/iconos/carrito.png') }}" alt="Carrito"><span class="cart-count">0</span></a>
+                    <a href="{{ route('carrito') }}">
+                        <img src="{{ asset('image/iconos/carrito.png') }}" alt="Carrito">
+                        <span class="cart-count">0</span>
+                    </a>
                 </li>
             </ul>
         </nav>

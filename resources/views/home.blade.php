@@ -25,7 +25,7 @@
                 <h2>OUTWORLD X MADRID</h2>
                 <p>Absolut by Outworld ha sido medalla de oro<br>en el World Vodka Challenge de 2025 <br>
                     con una puntuacion perfecta: 100/100<br><br>Palacio de Liria – Madrid.</p>
-                <a href="#" class="hero-btn">COMPARTE</a>
+                <a href="https://www.instagram.com/absolutvodka/?hl=es" class="hero-btn" target="_blank">COMPARTE</a>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 <h2>OUTWORLD X BARÇA</h2>
                 <p>Desde hoy, Outworld es nuevo patrocinador<BR> oficial del FC Barcelona.<br>
                     Porque las grandes historias merecen grandes aliados.<br><br> Camp Nou – Barcelona</p>
-                <a href="#" class="hero-btn">DESCUBRE</a>
+                <a href="https://www.fcbarcelona.es/es/" class="hero-btn" target="_blank">DESCUBRE</a>
             </div>
         </div>
 
@@ -48,7 +48,7 @@
                 <h2>WARHOL</h2>
                 <p>Arte, vodka y actitud. Solo para los que <br> se atreven a mezclarlo todo. <br>
                 Inspirada en Andy Warhol. Born to mix.</p>
-                <a href="#" class="hero-btn">CONSÍGUELO</a>
+                <a href="{{ route('producto', ['id' => 9]) }}" class="hero-btn">CONSÍGUELO</a>
             </div>
         </div>
 
@@ -158,7 +158,7 @@
           Nuevos sabores, colaboraciones inesperadas y mezclas impensables se reúnen bajo una misma idea: <strong>crear lo que aún no existe.</strong>
           Cada botella es una declaración de innovación, arte y actitud.
         </p>
-        <a href="{{ route('home') }}" class="btn-experimental">DESCÚBRELO</a>
+        <a href="{{ route('tienda') }}" class="btn-experimental">DESCÚBRELO</a>
       </div>
       <div class="experimental-imagen">
         <img src="image/recursos/experimental.png" alt="Absolut Experimental">
@@ -212,6 +212,9 @@
           </label>
         </div>
       </form>
+        <div id="newsletter-confirm" class="newsletter-confirm">
+            ¡Bienvenido al universo OUTWORLD.! Revisa tu email.
+        </div>
     </div>
   </section>
 @include('partials.footer')
@@ -222,9 +225,20 @@
     hamburger.addEventListener('click', () => {
       nav.classList.toggle('active');
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.newsletter-form');
+        const confirmBox = document.getElementById('newsletter-confirm');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            form.style.display = 'none';
+            confirmBox.style.display = 'block';
+        });
+    });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="js/carrusel.js"></script>
+  <script src="js/generico.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({

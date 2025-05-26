@@ -240,20 +240,16 @@ function promoSliderShop() {
 }
 
 function filtersAbsolutDrinks() {
-    // ✅ Objeto para almacenar los filtros seleccionados
     let selectedFilters = {
         'tipo_coctel': null,
         'base_sabor': null,
         'tiempo_preparacion': null
     };
 
-    // Manejar clic en los filtros individuales
     document.querySelectorAll('.filter-sub').forEach(button => {
         button.addEventListener('click', function() {
-            // Toggle la clase 'selected' al filtro
             this.classList.toggle('selected');
 
-            // ✅ Mapeamos los filtros seleccionados al objeto
             document.querySelectorAll('.filter-sub.selected').forEach(selectedButton => {
                 const category = selectedButton.closest('.filter-dropdown').querySelector('.filter-btn').dataset.category;
                 const subcategory = selectedButton.getAttribute('data-subcategory');
@@ -273,23 +269,19 @@ function filtersAbsolutDrinks() {
         });
     });
 
-    // ✅ Manejar clic en los botones de filtro para mostrar/ocultar los dropdowns
     document.querySelectorAll('.filter-btn').forEach(button => {
         button.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevenir que el clic se propague y cierre otros dropdowns
+            event.stopPropagation();
 
-            const dropdownContent = this.nextElementSibling; // El menú desplegable es el siguiente elemento (dropdown-content)
+            const dropdownContent = this.nextElementSibling;
 
-            // Verificamos que estamos modificando solo el dropdown-content, no el botón
             if (dropdownContent && dropdownContent.classList.contains('dropdown-content')) {
-                // Alternar la visibilidad del dropdown
                 if (dropdownContent.style.display === 'block') {
                     dropdownContent.style.display = 'none';
                 } else {
                     dropdownContent.style.display = 'block';
                 }
 
-                // Revisar si hay algún dropdown visible y agregar/quitar la clase .expanded
                 const container = document.querySelector('.search-and-filters');
                 const anyOpen = [...document.querySelectorAll('.dropdown-content')].some(dc => dc.style.display === 'block');
 
@@ -302,43 +294,35 @@ function filtersAbsolutDrinks() {
         });
     });
 
-    // ✅ Cerrar el menú si se hace clic fuera del dropdown
     window.addEventListener('click', function(event) {
         if (!event.target.closest('.filter-dropdown')) {
             document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-                dropdown.style.display = 'none'; // Ocultar todos los dropdowns si se hace clic fuera
+                dropdown.style.display = 'none';
             });
         }
     });
 
-    // ✅ Manejar el clic en "Aplicar Filtros"
     document.querySelector('#apply-filters').addEventListener('click', function() {
         let url = new URL(window.location.href);
 
-        // ✅ Limpiar parámetros anteriores
         Object.keys(selectedFilters).forEach(key => {
             url.searchParams.delete(key);
         });
 
-        // ✅ Añadir los nuevos parámetros seleccionados
         Object.keys(selectedFilters).forEach(key => {
             if (selectedFilters[key]) {
                 url.searchParams.set(key, selectedFilters[key]);
             }
         });
 
-        // ✅ Redirigir con los filtros seleccionados
         window.location.href = url.toString();
     });
 
-    // ✅ Manejar el clic en "Resetear filtros"
     document.querySelector('#reset-filters').addEventListener('click', function() {
-        // Restablecer todos los filtros seleccionados
         document.querySelectorAll('.filter-sub.selected').forEach(subButton => {
-            subButton.classList.remove('selected'); // Eliminar la clase 'selected' de todos los filtros
+            subButton.classList.remove('selected');
         });
 
-        // ✅ Limpiar los seleccionados del objeto
         selectedFilters = {
             'tipo_coctel': null,
             'base_sabor': null,
@@ -347,7 +331,6 @@ function filtersAbsolutDrinks() {
 
         console.log('Filtros reseteados.');
 
-        // ✅ Redirigir a la URL limpia
         window.location.href = window.location.pathname;
     });
 }

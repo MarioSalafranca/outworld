@@ -35,10 +35,10 @@
                 esta pieza rinde homenaje a la cultura del fútbol y al estilo sin filtros de Absolut.
                 Edición limitada.
               </p>
-              <a href="experimental.html" class="btn-promo">CONSÍGUELA</a>
+              <a href="{{ route('producto', ['id' => 31]) }}" class="btn-promo">CONSÍGUELA</a>
             </div>
             <div class="promo-imagen">
-              <img src="image/tienda/promo/meteor.png" alt="Absolut X Meteor">
+              <img src="{{ asset('image/tienda/promo/meteor.png') }}" alt="Absolut X Meteor">
             </div>
           </div>
 
@@ -51,10 +51,10 @@
                 Nueva colección de vasos absolut, si tu pedido es superior a 50€ te regalamos 2 vasos
                 absolut para que brindes en compañia.
               </p>
-              <a href="ediciones.html" class="btn-promo">DESCUBRIR</a>
+              <a href="{{ route('producto', ['id' => 31]) }}" class="btn-promo">DESCUBRIR</a>
             </div>
             <div class="promo-imagen">
-              <img src="image/tienda/promo/vaso-absolut.png" alt="Absolut Art">
+              <img src="{{ asset('image/tienda/promo/vaso-absolut.png') }}" alt="Absolut Art">
             </div>
           </div>
 
@@ -80,21 +80,21 @@
         </div>
       </section>
 
-      <div class="cart-popup" id="cartPopup">
-        <div class="cart-items" id="cartItems">
-        </div>
+    <div class="cart-popup" id="cartPopup">
+        <div class="cart-items" id="cartItems"></div>
         <div class="cart-total">
-          <strong>Subtotal:</strong> <span id="cartSubtotal">0€</span>
+            <strong>Subtotal:</strong> <span id="cartSubtotal">0€</span>
         </div>
-          @if (session()->has('usuario'))
-              <a href="{{ route('carrito') }}"><button class="view-cart">Ver carrito</button></a>
-          @else
-              @php
-                  session(['url.intended' => route('carrito')]);
-              @endphp
-              <a href="{{ route('cuenta') }}"><button class="view-cart">Ver carrito</button></a>
-          @endif
-      </div>
+        @if (session()->has('usuario'))
+            <a href="{{ route('carrito') }}">
+                <button class="view-cart">Ver carrito</button>
+            </a>
+        @else
+            <a href="{{ route('cuenta', ['redirect' => route('carrito')]) }}">
+                <button class="view-cart">Ver carrito</button>
+            </a>
+        @endif
+    </div>
 
     <section class="products" data-aos="fade-up">
         <div class="products-content">
@@ -124,7 +124,7 @@
                         <div class="accion">
                             <button class="btn-compra">
                                 <span>Añadir al carrito</span>
-                                <img src="image/iconos/carrito-black.png" alt="Carrito" class="icon-cart">
+                                <img src="{{ asset('image/iconos/carrito-black.png') }}" alt="Carrito" class="icon-cart">
                             </button>
                         </div>
                     </a>
@@ -175,20 +175,26 @@
         </div>
 
         <div class="drinks-cards">
+          <a href="{{ route('drink', ['id' => 2]) }}">
           <div class="drink-card">
-            <img src="image/tienda/drinks/AD-2.png">
+            <img src="{{ asset('image/tienda/drinks/AD-2.png') }}">
             <h4>Bloody Mary</h4>
           </div>
+          </a>
+          <a href="{{ route('drink', ['id' => 10]) }}">
           <div class="drink-card">
-            <img src="image/tienda/drinks/AD-1.png">
+            <img src="{{ asset('image/tienda/drinks/AD-1.png') }}">
             <div class="drink-card-title">
               <h4>Cosmopolitan</h4>
             </div>
           </div>
+          </a>
+          <a href="{{ route('drink', ['id' => 11]) }}">
           <div class="drink-card">
-            <img src="image/tienda/drinks/AD-3.png">
+            <img src="{{ asset('image/tienda/drinks/AD-3.png') }}">
             <h4>White Russian</h4>
           </div>
+          </a>
         </div>
         <div class="drinks-vermas">
           <a href="absolutDrinks.html" class="btn-ver-mas">VER MÁS</a>
@@ -199,7 +205,7 @@
         <div class="info-content">
           <div class="info-shop">
             <div class="content-img">
-              <img src="image/iconos/envio.png">
+              <img src="{{ asset('image/iconos/envio.png') }}">
             </div>
             <div class="content-text">
               <h4>Entrega Rápida</h4>
@@ -208,7 +214,7 @@
           </div>
           <div class="info-shop">
             <div class="content-img">
-              <img src="image/iconos/exclusivo.png">
+              <img src="{{ asset('image/iconos/exclusivo.png') }}">
             </div>
             <div class="content-text">
               <h4>Exclusividad al alcance.</h4>
@@ -217,7 +223,7 @@
           </div>
           <div class="info-shop">
             <div class="content-img">
-              <img src="image/iconos/sostenible.png">
+              <img src="{{ asset('image/iconos/sostenible.png') }}">
             </div>
             <div class="content-text">
               <h4>Cuidamos cada detalle.</h4>
@@ -250,13 +256,27 @@
               </label>
             </div>
           </form>
+          <div id="newsletter-confirm" class="newsletter-confirm2">
+              ¡Bienvenido al universo OUTWORLD.! Revisa tu email.
+          </div>
         </div>
       </section>
 
     @include('partials.footer')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.newsletter-form');
+            const confirmBox = document.getElementById('newsletter-confirm');
 
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                form.style.display = 'none';
+                confirmBox.style.display = 'block';
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/carrusel.js"></script>
+    <script src="js/generico.js"></script>
     <script src="js/tienda.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
       <script>

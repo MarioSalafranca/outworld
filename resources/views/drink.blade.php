@@ -136,20 +136,26 @@
             <h2>Descubre más Absolut Drinks</h2>
           </div>
         <div class="drinks-cards">
+            <a href="{{ route('drink', ['id' => 2]) }}">
             <div class="drink-card">
               <img src="{{ asset('image/tienda/drinks/AD-2.png') }}">
               <h4>Bloody Mary</h4>
             </div>
+            </a>
+            <a href="{{ route('drink', ['id' => 10]) }}">
             <div class="drink-card">
               <img src="{{ asset('image/tienda/drinks/AD-1.png') }}">
               <div class="drink-card-title">
                 <h4>Cosmopolitan</h4>
               </div>
             </div>
+            </a>
+            <a href="{{ route('drink', ['id' => 11]) }}">
             <div class="drink-card">
               <img src="{{ asset('image/tienda/drinks/AD-3.png') }}">
               <h4>White Russian</h4>
             </div>
+            </a>
           </div>
           <div class="drinks-vermas">
             <a href="{{ route('absolutDrinks') }}" class="btn-ver-mas">VER MÁS</a>
@@ -289,6 +295,9 @@
               </label>
             </div>
           </form>
+          <div id="newsletter-confirm" class="newsletter-confirm2">
+              ¡Bienvenido al universo OUTWORLD.! Revisa tu email.
+          </div>
         </div>
       </section>
 
@@ -302,27 +311,38 @@
         nav.classList.toggle('active');
       });
     </script>
-        <script>
-            const responderBtns = document.querySelectorAll('.responder-btn');
+    <script>
+       const responderBtns = document.querySelectorAll('.responder-btn');
+        responderBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+            const formRespuesta = btn.nextElementSibling;
 
-            responderBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const formRespuesta = btn.nextElementSibling;
+            if (formRespuesta.classList.contains('activo')) {
+                 formRespuesta.classList.remove('activo');
+                 formRespuesta.style.display = 'none';
+            } else {
+                 formRespuesta.classList.add('activo');
+                 formRespuesta.style.display = 'block';
+            }
+         });
+        });
 
-                    if (formRespuesta.classList.contains('activo')) {
-                        formRespuesta.classList.remove('activo');
-                        formRespuesta.style.display = 'none';
-                    } else {
-                        formRespuesta.classList.add('activo');
-                        formRespuesta.style.display = 'block';
-                    }
-                });
-            });
-        </script>
+       // NEWSLETTER
+       document.addEventListener('DOMContentLoaded', function() {
+           const form = document.querySelector('.newsletter-form');
+           const confirmBox = document.getElementById('newsletter-confirm');
+
+           form.addEventListener('submit', function(e) {
+               e.preventDefault();
+               form.style.display = 'none';
+               confirmBox.style.display = 'block';
+           });
+       });
+    </script>
 
 
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/carrusel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/generico.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
     AOS.init({

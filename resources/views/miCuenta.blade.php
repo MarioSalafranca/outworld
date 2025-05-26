@@ -205,6 +205,9 @@
               </label>
             </div>
           </form>
+          <div id="newsletter-confirm" class="newsletter-confirm2">
+             ¡Bienvenido al universo OUTWORLD.! Revisa tu email.
+          </div>
         </div>
     </section>
     @include('partials.footer')
@@ -251,6 +254,18 @@
 
         mostrarDireccionBtn.addEventListener('click', () => {
             direccionCampos.classList.toggle('mostrar');
+        });
+
+        // NEWSLETTER
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.newsletter-form');
+            const confirmBox = document.getElementById('newsletter-confirm');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                form.style.display = 'none';
+                confirmBox.style.display = 'block';
+            });
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

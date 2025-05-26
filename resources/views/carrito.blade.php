@@ -46,12 +46,6 @@
               </div>
             </div>
 
-            <div class="carrito__cupon">
-              <label>¿Tienes un cupón de descuento?</label>
-              <input type="text" placeholder="Inserta tu código" class="carrito__cupon-input" />
-              <button class="carrito__cupon-btn">Aplicar cupón</button>
-            </div>
-
             <form id="checkoutForm" action="{{ route('procesarPedido') }}" method="POST" target="_blank">
               @csrf
               <input type="hidden" name="carrito" id="carritoData">
@@ -80,6 +74,9 @@
               </label>
             </div>
           </form>
+          <div id="newsletter-confirm" class="newsletter-confirm2">
+             ¡Bienvenido al universo OUTWORLD.! Revisa tu email.
+          </div>
         </div>
     </section>
     @include('partials.footer')
@@ -107,6 +104,18 @@
                 form.submit();
             });
         })();
+
+        // NEWSLETTER
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.newsletter-form');
+            const confirmBox = document.getElementById('newsletter-confirm');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                form.style.display = 'none';
+                confirmBox.style.display = 'block';
+            });
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="js/carrito.js"></script>

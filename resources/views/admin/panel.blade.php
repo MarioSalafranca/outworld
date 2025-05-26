@@ -4,177 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Panel de Administración</title>
-    <style>
-        :root {
-            --brand: #0651B4;
-            --bg-card: #fff;
-            --text-primary: #333;
-            --text-secondary: #555;
-            --shadow: rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f2f5f8;
-            color: var(--text-primary);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1300px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--brand);
-            margin-bottom: 20px;
-            font-size: 32px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-
-        .tabs button {
-            padding: 10px 20px;
-            border: none;
-            background: var(--bg-card);
-            border-bottom: 2px solid transparent;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .tabs button.active {
-            border-color: var(--brand);
-            font-weight: bold;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        .section-title {
-            margin: 20px 0 10px;
-            font-size: 20px;
-            color: var(--brand);
-            border-bottom: 2px solid var(--brand);
-            display: inline-block;
-            padding-bottom: 4px;
-        }
-
-        .grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            flex: 1 1 calc(33% - 20px);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px var(--shadow);
-            position: relative;
-        }
-
-        .card h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .w-5.h-5 {
-            display: none;
-        }
-
-        @media (max-width: 700px) {
-            .card {
-                flex: 1 1 100%;
-            }
-        }
-
-        /* Tabla de usuarios */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background: #f0f0f0;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-admin {
-            background: var(--brand);
-            color: #fff;
-        }
-
-        .btn-delete {
-            background: #e53e3e;
-            color: #fff;
-        }
-
-        .btn-create {
-            background: var(--brand);
-            color: #fff;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .acciones-pag {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            align-content: center;
-            flex-direction: column;
-        }
-
-        .acciones-pag ul {
-            list-style: none;
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
-<body>
+<body class="panel">
 
 <div class="container">
     <h1>Panel de Administración</h1>
@@ -221,7 +53,9 @@
             </div>
         </div>
     </div>
-
+    <div class="form-actions">
+        <a href="{{ route('tienda') }}" class="btn-cancel">Cancelar</a>
+    </div>
     <!-- Sección Usuarios -->
     <div id="tab-users" class="content-section">
         <div class="section-title">Listado de Usuarios</div>
@@ -312,7 +146,6 @@
             </tbody>
         </table>
 
-        <!-- paginación -->
         <div class="acciones-pag">
             {!! $comprasAll->links('pagination::simple-bootstrap-4') !!}
 
@@ -359,7 +192,6 @@
                 </tbody>
             </table>
 
-            <!-- Paginación igual que antes -->
             <div class="acciones-pag">
                 {!! $productosAll->links('pagination::simple-bootstrap-4') !!}
             </div>
@@ -414,53 +246,6 @@
             </a>
         </div>
     </div>
-
-
-<script>
-    const tabBtns = {
-        main:      document.getElementById('tab-btn-main'),
-        users:     document.getElementById('tab-btn-users'),
-        compras:   document.getElementById('tab-btn-compras'),
-        productos: document.getElementById('tab-btn-productos'),
-        drinks:    document.getElementById('tab-btn-drinks'),
-    };
-    const tabs = {
-        main:      document.getElementById('tab-main'),
-        users:     document.getElementById('tab-users'),
-        compras:   document.getElementById('tab-compras'),
-        productos: document.getElementById('tab-productos'),
-        drinks:    document.getElementById('tab-drinks'),
-    };
-
-    function activate(name) {
-        for (let key in tabBtns) {
-            tabBtns[key].classList.toggle('active', key === name);
-            tabs[key].classList.toggle('active', key === name);
-        }
-    }
-
-    tabBtns.main.addEventListener('click',      () => activate('main'));
-    tabBtns.users.addEventListener('click',     () => activate('users'));
-    tabBtns.compras.addEventListener('click',   () => activate('compras'));
-    tabBtns.productos.addEventListener('click', () => activate('productos'));
-    tabBtns.drinks.addEventListener('click',    () => activate('drinks'));
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const hash = window.location.hash;
-        if (hash === '#tab-users') {
-            activate('users');
-        } else if (hash === '#tab-compras') {
-            activate('compras');
-        } else if (hash === '#tab-productos') {
-            activate('productos');
-        } else if (hash === '#tab-drinks') {
-            activate('drinks');
-        } else {
-            activate('main');
-        }
-    });
-</script>
-
-
+<script src="{{ asset('js/adminTabs.js') }}"></script>
 </body>
 </html>

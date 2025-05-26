@@ -58,7 +58,7 @@
               <ul>
                 <li>Sabor: {{ $producto->atributos->sabor }}</li>
                 <li>Tamaño: {{ $producto->atributos->tamanio }}</li>
-                <li>% Alcohol: {{ $producto->atributos->porcentaje_alcohol }}</li>
+                <li>% Alcohol: {{ $producto->atributos->porcentaje_alcohol }}%</li>
                 <li>Metodo de Destilacion: {{ $producto->atributos->metodo_destilacion }}</li>
                 <li>Color: {{ $producto->atributos->color }}</li>
               </ul>
@@ -243,39 +243,24 @@
           Un vodka de primera categoría.</p>
       </div>
       <div class="drinks-especific">
+        <a href="{{ route('drink', ['id' => 16]) }}">
         <div class="drink d1" data-name="Vodka Martini">
-          <div class="drink-name">Vodka Martini</div>
+          <div class="drink-name">Vodka Mojito</div>
         </div>
+        </a>
+        <a href="{{ route('drink', ['id' => 2]) }}">
         <div class="drink d2" data-name="Bloody Mary">
           <div class="drink-name">Bloody Mary</div>
         </div>
+        </a>
+        <a href="{{ route('drink', ['id' => 14]) }}">
         <div class="drink d3" data-name="Espresso Martini">
           <div class="drink-name">Espresso Martini</div>
         </div>
+        </a>
       </div>
     </section>
 
-
-    <section class="newsletter" data-aos="fade-up" id="newsletter">
-      <div class="newsletter-product">
-        <div class="newsletter-texto">
-          <h2>Ahora formas parte de otro mundo.</h2>
-          <p> <strong>5% de descuento</strong> en tu primera compra.</p>
-        </div>
-        <form class="newsletter-form">
-          <div class="input-wrapper">
-            <input type="email" placeholder="Tu correo electrónico" required>
-            <button type="submit">UNIRME</button>
-          </div>
-          <div class="checkbox-legal">
-            <input type="checkbox" id="legal" required>
-            <label for="legal">
-              He leído y acepto el <a href="{{ route('avisoLegal') }}" target="_blank">aviso legal</a> y la <a href="{{ route('politicaPrivacidad') }}" target="_blank">política de privacidad</a>.
-            </label>
-          </div>
-        </form>
-      </div>
-    </section>
     @include('partials.footer')
 
 
@@ -296,15 +281,13 @@
           }
         });
       });
+
     </script>
 
     {{-- Carga la lógica del carrito --}}
-    <script src="{{ asset('js/carrito.js') }}"></script>
-    <script src="{{ asset('js/tienda.js') }}"></script>
-
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="{{ asset('js/carrusel.js') }}"></script>
+    <script src="{{ asset('js/generico.js') }}"></script>
+    <script src="{{ asset('js/tienda.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
     AOS.init({

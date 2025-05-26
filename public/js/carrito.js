@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    cargarCarrito(); // 🔄 Cuando cargue la página, llenamos el carrito
+    cargarCarrito();
 });
 
 function cargarCarrito() {

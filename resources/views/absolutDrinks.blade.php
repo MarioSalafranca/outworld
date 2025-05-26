@@ -18,22 +18,22 @@
         <div class="banner-absolut-drinks">
             <h2>De absolut a la <span class="ad">perfección,</span><br>un cóctel que convierte cada momento <br> en una obra de <span class="ad">arte.</span></h2>
             <div class="mediaimg">
-                <img src="image/logo/AD.png">
+                <img src="{{ asset('image/logo/AD.png') }}">
             </div>
         </div>
     </section>
 
     <section class="search-and-filters" data-aos="fade-up">
         <div class="search-bar-inline">
-            <div class="search-input">
-              <input type="text" placeholder="Del vodka al arte en un solo shake..." id="productSearch" />
-              <button id="searchBtn"><i class="fas fa-search"></i></button>
-            </div>
+            <form action="{{ route('buscadorDrinks') }}" method="GET" class="search-bar-inline">
+                <div class="search-input">
+                  <input type="text" placeholder="Del vodka al arte en un solo shake..." id="productSearch" name="q" value="{{ request('q') }}"/>
+                  <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
           </div>
 
           <div class="filter-options">
-
-            <!-- Botón de reset -->
             <button class="filter-btn" id="reset-filters">Resetear filtros</button>
             <div class="filter-dropdown">
               <button class="filter-btn" data-category="tipo-coctel">Tipo de cóctel ▾</button>
@@ -122,14 +122,31 @@
         </div>
     </section>
 
-    <div class="pagination-containerTienda">
-        <button class="pagination-btn prev">←</button>
-        <button class="pagination-btn active">1</button>
-        <button class="pagination-btn">2</button>
-        <button class="pagination-btn">3</button>
-        <button class="pagination-btn">4</button>
-        <button class="pagination-btn next">→</button>
-    </div>
+<div class="pagination-containerTienda">
+    @if ($drinks->onFirstPage())
+        <button class="pagination-btn prev" disabled>←</button>
+    @else
+        <a href="{{ $drinks->previousPageUrl() }}">
+            <button class="pagination-btn prev">←</button>
+        </a>
+    @endif
+
+    @for ($i = 1; $i <= $drinks->lastPage(); $i++)
+        <a href="{{ $drinks->url($i) }}">
+            <button class="pagination-btn {{ $drinks->currentPage() == $i ? 'active' : '' }}">
+                {{ $i }}
+            </button>
+        </a>
+    @endfor
+
+    @if ($drinks->hasMorePages())
+        <a href="{{ $drinks->nextPageUrl() }}">
+            <button class="pagination-btn next">→</button>
+        </a>
+    @else
+        <button class="pagination-btn next" disabled>→</button>
+    @endif
+</div>
 
     <section class="house-of-coctel" data-aos="fade-up">
         <div class="house-of-coctel-title">
@@ -140,7 +157,7 @@
         <div class="house-cuadricula">
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/8.jpeg" alt="Foto 1">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/8.jpeg') }}" alt="Foto 1">
                     <div class="photo-info">
                         <span>Oliver Smith</span>
                         <p>London, UK</p>
@@ -149,7 +166,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/1.jpeg" alt="Foto 2">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/1.jpeg') }}" alt="Foto 2">
                     <div class="photo-info">
                         <span>Lukas Müller</span>
                         <p>Zurich, CH</p>
@@ -158,7 +175,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/2.jpeg" alt="Foto 3">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/2.jpeg') }}" alt="Foto 3">
                     <div class="photo-info">
                         <span>Sofía González</span>
                         <p>Buenos Aires, ARG</p>
@@ -167,7 +184,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/3.jpeg" alt="Foto 4">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/3.jpeg') }}" alt="Foto 4">
                     <div class="photo-info">
                         <span>Emma MacDonald</span>
                         <p>Edimburgo, UK</p>
@@ -176,7 +193,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/4.jpeg" alt="Foto 5">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/4.jpeg') }}" alt="Foto 5">
                     <div class="photo-info">
                         <span>Lucas Dupont</span>
                         <p>París, FR</p>
@@ -185,7 +202,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/5.jpeg" alt="Foto 6">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/5.jpeg') }}" alt="Foto 6">
                     <div class="photo-info">
                         <span>Alberto Cortés</span>
                         <p>Ibiza, ES</p>
@@ -194,7 +211,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/3.jpeg" alt="Foto 7">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/3.jpeg') }}" alt="Foto 7">
                     <div class="photo-info">
                         <span>Adrián Oller</span>
                         <p>Madrid, ES</p>
@@ -203,7 +220,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/11.jpeg" alt="Foto 8">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/11.jpeg') }}" alt="Foto 8">
                     <div class="photo-info">
                         <span>Louis Dupuis</span>
                         <p>Bruselas, BE</p>
@@ -212,7 +229,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/8.jpeg" alt="Foto 9">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/8.jpeg') }}" alt="Foto 9">
                     <div class="photo-info">
                         <span>Olivia Smith</span>
                         <p>Washington, US</p>
@@ -221,7 +238,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/9.jpeg" alt="Foto 10">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/9.jpeg') }}" alt="Foto 10">
                     <div class="photo-info">
                         <span>Isabella Brown</span>
                         <p>Nueva York, US</p>
@@ -230,7 +247,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/14.jpeg" alt="Foto 11">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/14.jpeg') }}" alt="Foto 11">
                     <div class="photo-info">
                         <span>Hiroshi Tanaka</span>
                         <p>Nagoya, JP</p>
@@ -239,7 +256,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/11.jpeg" alt="Foto 12">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/11.jpeg') }}" alt="Foto 12">
                     <div class="photo-info">
                         <span>Wei Zhang</span>
                         <p>Shangai, CH</p>
@@ -248,7 +265,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/12.jpeg" alt="Foto 13">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/12.jpeg') }}" alt="Foto 13">
                     <div class="photo-info">
                         <span>David Nus</span>
                         <p>Marbella, ES</p>
@@ -257,7 +274,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/13.jpeg" alt="Foto 14">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/13.jpeg') }}" alt="Foto 14">
                     <div class="photo-info">
                         <span>Luca Rossi</span>
                         <p>Milán, IT</p>
@@ -266,7 +283,7 @@
             </div>
             <div class="house-cuadro">
                 <a href="https://www.instagram.com/nombreusuario" target="_blank">
-                    <img src="image/absolut-drinks/house-of-coctel/14.jpeg" alt="Foto 15">
+                    <img src="{{ asset('image/absolut-drinks/house-of-coctel/14.jpeg') }}" alt="Foto 15">
                     <div class="photo-info">
                         <span>Maria Ferreira</span>
                         <p>Algarve, PT</p>
@@ -302,6 +319,9 @@
               </label>
             </div>
           </form>
+          <div id="newsletter-confirm" class="newsletter-confirm2">
+             ¡Bienvenido al universo OUTWORLD.! Revisa tu email.
+          </div>
         </div>
       </section>
 
@@ -314,9 +334,21 @@
       hamburger.addEventListener('click', () => {
         nav.classList.toggle('active');
       });
+
+      // NEWSLETTER
+      document.addEventListener('DOMContentLoaded', function() {
+          const form = document.querySelector('.newsletter-form');
+          const confirmBox = document.getElementById('newsletter-confirm');
+
+          form.addEventListener('submit', function(e) {
+              e.preventDefault();
+              form.style.display = 'none';
+              confirmBox.style.display = 'block';
+          });
+      });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/carrusel.js"></script>
+    <script src="js/generico.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
     AOS.init({

@@ -45,14 +45,7 @@
 
                         <input type="email" placeholder="Tu correo electrónico" name="email" required>
                         <input type="password" placeholder="Contraseña" name="password" required>
-                        <div class="checkbox-legal2">
-                            <input type="checkbox" id="legal" required>
-                            <label for="legal">
-                                Recuerdame
-                            </label>
-                        </div>
-                      <button type="submit" class="btn-login-iniciar">INICIAR SESIÓN</button>
-                      <a href="">He olvidado mi contraseña</a>
+                        <button type="submit" class="btn-login-iniciar">INICIAR SESIÓN</button>
                     </div>
                 </form>
             </div>

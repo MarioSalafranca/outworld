@@ -12,7 +12,6 @@
                 <ul class="nav-links">
                     <li><a href="{{ route('tienda') }}">PRODUCTOS</a></li>
                     <li><a href="{{ route('historia') }}">HISTORIA</a></li>
-                    <li><a href="{{ route('home') }}">EXPERIMENTAL</a></li>
                     <li><a href="{{ route('absolutDrinks') }}">DRINKS</a></li>
                     <li><a href="{{ route('contacto') }}">CONTACTO</a></li>
                 </ul>

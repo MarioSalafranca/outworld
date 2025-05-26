@@ -91,16 +91,16 @@
             <div class="redes-contacto">
                 <h3>También puedes contactarnos a través de redes</h3>
                 <div class="iconos-redes">
-                  <a href="#" target="_blank" class="icono-red">
+                  <a href="https://www.facebook.com/groups/285987221415455/" target="_blank" class="icono-red">
                     <i class="fa-brands fa-facebook-f"></i>
                   </a>
-                  <a href="#" target="_blank" class="icono-red">
+                  <a href="https://www.linkedin.com/company/the-absolut-group/?originalSubdomain=se" target="_blank" class="icono-red">
                     <i class="fa-brands fa-linkedin-in"></i>
                   </a>
-                  <a href="#" target="_blank" class="icono-red">
+                  <a href="https://www.instagram.com/absolutvodka/?hl=es" target="_blank" class="icono-red">
                     <i class="fa-brands fa-instagram"></i>
                   </a>
-                  <a href="#" target="_blank" class="icono-red">
+                  <a href="https://x.com/absolutvodka?lang=es" target="_blank" class="icono-red">
                     <i class="fa-brands fa-x-twitter"></i>
                   </a>
                 </div>
@@ -128,7 +128,7 @@
     @include('partials.footer');
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-      <script src="js/carrusel.js"></script>
+      <script src="js/generico.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
       <script>
       AOS.init({

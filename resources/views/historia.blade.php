@@ -254,7 +254,7 @@
           <div class="timeline-cover bg-2025"><span>2025 · El reconocimiento absoluto</span></div>
           <div class="timeline-contentR">
             <div class="text">
-              <h3>El reconocimiento absoluto</h3>
+              <h3>El reconocimiento</h3>
               <p>
                 2025 marcó un antes y un después en la historia de Absolut. Ese año,
                 la marca alcanzó la cima en el escenario internacional al obtener la medalla de oro
@@ -275,8 +275,17 @@
 
     @include('partials.footer')
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/carrusel.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+
+        hamburger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/generico.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
     AOS.init({

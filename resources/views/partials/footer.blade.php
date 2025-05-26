@@ -22,7 +22,7 @@
                     <li><a href="{{ route('home') }}">OUTWORLD</a></li>
                     <li><a href="{{ route('absolutDrinks') }}">Absolut Drinks</a></li>
                     <li><a href="{{ route('contacto') }}">Contacto</a></li>
-                    <li><a href="{{ route('home') }}">Experimental</a></li>
+                    <li><a href="{{ route('tienda') }}">Experimental</a></li>
                 </ul>
             </div>
 
@@ -30,10 +30,10 @@
             <div class="footer-col">
                 <h4>SÍGUENOS</h4>
                 <div class="footer-social">
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://www.facebook.com/groups/285987221415455/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.linkedin.com/company/the-absolut-group/?originalSubdomain=se" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/absolutvodka/?hl=es" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://x.com/absolutvodka?lang=es" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
                 </div>
                 <p><strong>Leading the edge.</strong><br>
                     Outworld recomienda el consumo responsable. +18.</p>

@@ -38,7 +38,5 @@
             </p>
         </div>
     </div>
-
-    <script src="js/agegate.js"></script>
 </body>
 </html>
