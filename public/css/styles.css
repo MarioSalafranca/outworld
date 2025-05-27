@@ -4311,8 +4311,7 @@ textarea {
     }
 
     .right p {
-        font-size: 11px;
-        text-align: center;
+        font-size: 13px;
     }
 
     .text p {
@@ -4346,10 +4345,13 @@ textarea {
 
     .productSwiper .swiper-slide img {
         width: 80%;
-        height: auto;
     }
 
     /* NOTICIAS */
+
+    .noticias-home {
+        margin-top: 0;
+    }
 
     .noticias-home h2 {
         margin: 0 0 20px 0;
@@ -4468,8 +4470,12 @@ textarea {
 
     .search-input {
         width: 50%;
-        margin-left: -120px;
+        margin-left: 0px;
 
+    }
+
+    .search-bar-inline {
+        display: block;
     }
 
     .tienda .general-header nav {
@@ -4500,8 +4506,13 @@ textarea {
         width: 80%;
     }
 
+    .drinks-cards {
+        gap: 20px;
+    }
+
     .drink-card {
-        height: 300px;
+        height: 400px !important;
+        width: 240px;
     }
 
     .info-shop .content-img {
@@ -4607,6 +4618,10 @@ textarea {
         margin-top: 140px;
     }
 
+    .personal-content p {
+        font-size: 12px;
+    }
+
     .ficha-tecnica-content {
         width: 80%;
     }
@@ -4643,7 +4658,7 @@ textarea {
         display: none;
         position: absolute;
         top: 80px;
-        right: 0;
+        right: 15px;
         background-color: #111;
         width: 100%;
         text-align: center;
@@ -4703,7 +4718,7 @@ textarea {
     /* PRODUCTOS */
 
     .productos-slider {
-        margin-top: 100px
+        margin-top: -8px
     }
 
     .encabezado-productos h2 {
@@ -4727,7 +4742,6 @@ textarea {
 
     .productSwiper .swiper-slide img {
         width: 80%;
-        height: auto;
     }
 
     /* NOTICIAS */
@@ -4760,7 +4774,7 @@ textarea {
     /* EXPERIMENTAL & DRINKS */
 
     .absolut-experimental {
-        margin-top: 214px;
+        margin-top: 110px;
     }
     .absolut-experimental,
     .absolut-drinks {
@@ -4857,15 +4871,40 @@ textarea {
     }
 
     /* Oculta el logo */
-  .logo-wrapper {
+    .logo-wrapper {
     display: none;
-  }
+    }
 
   /* Asegura que el buscador se vea bien */
   .search-bar-inline {
     display: flex !important;
-    width: 0%;
-    margin: 10px 0;
+    width: 100%;
+  }
+
+  .cart-link {
+      margin-left: -20px;
+  }
+
+  .cart-popup {
+      right: 0;
+      left: 100px;
+      width: 220px;
+  }
+
+  .btn-compra img {
+      display: none;
+  }
+
+  .product-titulo h3 {
+      font-size: 16px;
+  }
+
+  .tienda .products-content {
+      margin-top: 0;
+  }
+
+  .drinks-content {
+      height: 350px;
   }
 
   .search-input {
@@ -4892,7 +4931,6 @@ textarea {
     display: flex;
     flex-direction: row;
     gap: 10px !important;
-    margin-left: 0;
   }
 
   .account-trigger span, /* si hay texto en el botón "Mi cuenta" */
@@ -4902,10 +4940,6 @@ textarea {
 
   .account-trigger {
     padding: 5px;
-  }
-
-  .cart-link {
-    margin-top: 20px;
   }
 
   .cart-link .cart-count {
@@ -4956,15 +4990,15 @@ textarea {
   .drinks-cards {
     flex-direction: column;
     height: 1200px;
-    margin-top: 300px;
+    margin-top: 100px;
+  }
+
+  .drink-card {
+      width: 300px;
   }
 
   .shop-info {
     display: none;
-  }
-
-  .newsletter {
-    margin-top: 300px
   }
 
   .input-wrapper {
@@ -5013,6 +5047,15 @@ textarea {
   }
 
   /* DRINKS */
+
+  .publi-especific-drink > :nth-child(2),
+  .publi-especific-drink > :nth-child(3) {
+    display: none;
+  }
+
+  .public-especific-drink img {
+      width: 430px;
+  }
 
   .publi-especific-drink {
     grid-template-columns: repeat(1, 1fr);
@@ -5081,7 +5124,6 @@ textarea {
   }
 
   .seccion-valoracion {
-    margin-top: 300px;
     margin-bottom: 100px;
   }
 

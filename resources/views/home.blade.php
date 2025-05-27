@@ -93,7 +93,7 @@
         <div class="swiper-wrapper">
             @foreach ($productos as $producto)
             <div class="swiper-slide">
-                <img src="{{ asset('/' . $producto->imagen) }}" alt="{{ $producto->nombre }}">
+                <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}">
                 <div class="product-buttons">
                     <a href="{{ route('tienda') }}" class="btn-outline">MÁS INFO</a>
                     <a href="{{ route('producto', $producto->id) }}" class="btn-filled">COMPRA</a>

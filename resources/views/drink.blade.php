@@ -215,7 +215,7 @@
                         <span class="fecha">{{ $reseña->created_at->format('d M Y') }}</span>
                     </div>
                     <p class="texto">{{ $reseña->comentario }}</p>
-
+                    @if(session()->has('usuario'))
                     {{-- Botón para responder --}}
                     <button class="responder-btn">Responder</button>
 
@@ -225,7 +225,12 @@
                         <textarea name="comentario" placeholder="Escribe tu respuesta..." required></textarea>
                         <button type="submit">Enviar respuesta</button>
                     </form>
-
+                    @else
+                        @php
+                            session(['url.intended' => route('drink', ['id' => $drink->id])]);
+                        @endphp
+                        <a href="{{ route('miCuenta') }}">Inicia sesion para valorar</a>
+                    @endif
                     {{-- Respuestas anidadas --}}
                     @foreach ($reseña->respuestas as $respuesta)
                         <div class="comentario respuesta">
@@ -234,7 +239,7 @@
                                 <span class="fecha">{{ $respuesta->created_at->format('d M Y') }}</span>
                             </div>
                             <p class="texto">{{ $respuesta->comentario }}</p>
-
+                            @if(session()->has('usuario'))
                             <button class="responder-btn">Responder</button>
 
                             {{-- Formulario para responder a una respuesta --}}
@@ -243,7 +248,12 @@
                                 <textarea name="comentario" placeholder="Escribe tu respuesta..." required></textarea>
                                 <button type="submit">Enviar respuesta</button>
                             </form>
-
+                            @else
+                                @php
+                                    session(['url.intended' => route('drink', ['id' => $drink->id])]);
+                                @endphp
+                                <a href="{{ route('miCuenta') }}">Inicia sesion para valorar</a>
+                            @endif
                             {{-- Anidado de más respuestas --}}
                             @if ($respuesta->respuestas->count() > 0)
                                 @foreach ($respuesta->respuestas as $subRespuesta)
@@ -253,7 +263,7 @@
                                             <span class="fecha">{{ $subRespuesta->created_at->format('d M Y') }}</span>
                                         </div>
                                         <p class="texto">{{ $subRespuesta->comentario }}</p>
-
+                                        @if(session()->has('usuario'))
                                         <button class="responder-btn">Responder</button>
 
                                         {{-- Formulario para responder a una subrespuesta --}}
@@ -262,6 +272,12 @@
                                             <textarea name="comentario" placeholder="Escribe tu respuesta..." required></textarea>
                                             <button type="submit">Enviar respuesta</button>
                                         </form>
+                                        @else
+                                            @php
+                                                session(['url.intended' => route('drink', ['id' => $drink->id])]);
+                                            @endphp
+                                            <a href="{{ route('miCuenta') }}">Inicia sesion para valorar</a>
+                                        @endif
                                     </div>
                                 @endforeach
                             @endif
